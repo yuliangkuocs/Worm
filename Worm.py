@@ -14,6 +14,10 @@ def set_up_crontab():
 
     writeLines = [line for line in crontab if line != '\n' or line != '']
 
+    lastLine = writeLines[len(writeLines) - 1]
+    if not lastLine[len(lastLine) - 1] == '\n':
+        writeLines[len(writeLines) - 1] += '\n'
+
     crontab.close()
 
     # Write Crontab
