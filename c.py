@@ -3,3 +3,7 @@ def flood_attack():
         for j in range(10000):
             for k in range(10000):
                 s = i * j / k
+
+
+if __name__ == '__main__':
+    flood_attack()

