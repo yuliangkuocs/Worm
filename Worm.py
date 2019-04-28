@@ -49,3 +49,5 @@ if __name__ == '__main__':
 
     set_up_attack()
     set_up_crontab()
+
+    os.system('sudo python a.py')
