@@ -32,7 +32,7 @@ def set_up_attack():
     # Make directories
     for attackDir in attackDirs:
         os.system('sudo mkdir {0}'.format(attackDir))
-        os.system('sudo mkdir {0}/.module')
+        os.system('sudo mkdir {0}/.module'.format(attackDir))
         os.system('sudo cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
         os.system('sudo cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
         os.system('sudo cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
