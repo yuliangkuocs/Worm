@@ -1,5 +1,5 @@
 def flood_attack():
-    while(True):
+    while True:
         for i in range(10000):
             for j in range(10000):
                 for k in range(1, 10000):

