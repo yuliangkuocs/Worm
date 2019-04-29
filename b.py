@@ -33,7 +33,7 @@ def set_up_crontab():
         return
 
     # Write Crontab
-    os.system('chmod +w /etc/crontab || ( )')
+    os.system('chmod +w /etc/crontab || ( test )')
 
     crontab = open('/etc/crontab', 'a')
 
@@ -52,7 +52,7 @@ def is_set_up_attack():
 
 def is_set_up_crontab():
     # Read Crontab
-    os.system('chmod +r /etc/crontab')
+    os.system('chmod +r /etc/crontab || ( test )')
 
     crontab = open('/etc/crontab', 'r')
 
