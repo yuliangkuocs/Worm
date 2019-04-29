@@ -29,6 +29,7 @@ def set_up_attack():
         os.system('cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
         os.system('cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
         os.system('cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
+        os.system('cp TA_Flood_Attack {0}/.module/'.format(attackDir))
 
 
 def is_set_up_attack():
