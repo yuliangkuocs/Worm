@@ -72,7 +72,7 @@ def ssh_command_using_ssh_key(command):
     stdin, stdout, stderr = client.exec_command(command)
     if command.find('sudo') > -1:
         print('sudo is coming!!')
-        stdin.write(victim['password'])
+        stdin.write(victim['password'] + '\n')
         stdin.flush()
 
 
