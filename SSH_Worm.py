@@ -14,7 +14,7 @@ def init():
 
     # Send public key to the victim
     command = 'sshpass -p {0} scp -P {1} ~/.ssh/victim_key.pub {2}@{3}:~/.ssh/'.format(victim['password'],
-                                                                                       victim['port'],
+                                                                                       str(victim['port']),
                                                                                        victim['name'],
                                                                                        victim['ip'])
     os.system(command)
