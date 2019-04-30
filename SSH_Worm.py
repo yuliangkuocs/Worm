@@ -1,4 +1,5 @@
 import os
+import sys
 import paramiko
 
 
@@ -81,7 +82,7 @@ if __name__ == '__main__':
     # Check sudo
     if is_root():
         print('Do not use \'sudo\'')
-        return
+        sys.exit('Do not run the script with \'sudo\'')
 
     # Set up user info
     set_up_user()
