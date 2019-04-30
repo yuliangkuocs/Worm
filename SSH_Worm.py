@@ -11,6 +11,11 @@ def ssh_command(ip, user, password, command, port=22):
     if session.active:
         print('Session Active')
         session.exec_command(command)
+
+        print('\n--------Victim Std Out--------')
+        print(session.recv(2048))
+        print('--------Victim Std Out--------\n')
+
         session.exec_command('y')
         session.exec_command('yes')
 
