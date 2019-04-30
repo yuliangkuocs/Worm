@@ -10,7 +10,7 @@ def init():
     print('\n[Init] Setting up environment...')
 
     # Create ssh key
-    command = 'ssh-keygen -f ~/.ssh/victim_key -P 12345'
+    command = 'ssh-keygen -f ~/.ssh/victim_key'
     os.system(command)
 
     # Send public key to the victim
