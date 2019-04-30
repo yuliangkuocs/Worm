@@ -37,7 +37,7 @@ def attack():
 def ssh_command_using_name_pw(command):
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-    client.connect(victim['ip'], username=victim['name'], password=victim['password'], port=victim['port'])
+    client.connect(victim['ip'], username=victim['name'], password=victim['password'], port=victim['port'], passphrase='12345')
 
     session = client.get_transport().open_session()
 
