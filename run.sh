@@ -1,1 +1,1 @@
-python Worm.py
+sudo python Worm.py
