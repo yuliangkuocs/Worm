@@ -73,7 +73,16 @@ def set_up_user():
     attacker['password'] = 'victim'
 
 
+def is_root():
+    return os.geteuid() == 0
+
+
 if __name__ == '__main__':
+    # Check sudo
+    if is_root():
+        print('Do not use \'sudo\'')
+        return
+
     # Set up user info
     set_up_user()
 
