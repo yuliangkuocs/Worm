@@ -8,6 +8,10 @@ victim, attacker = {}, {}
 def init():
     print('\nSetting up environment...')
 
+    # Create ssh key
+    command = 'ssh-keygen -f ~/.ssh/victim_key -P 12345'
+    os.system(command)
+
     # Send public key to the victim
     command = 'sshpass -p {0} scp -P {1} ~/.ssh/victim_key.pub {2}@{3}:~/.ssh/'.format(victim['password'],
                                                                                        victim['port'],
