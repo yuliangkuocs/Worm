@@ -67,29 +67,13 @@ def ssh_command_using_ssh_key(command):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
     client.connect(victim['ip'], port=victim['port'])
 
-    session = client.get_transport().open_session()
+    print('[Command] ' + command)
 
-    if session.active:
-        print('[Command] ' + command)
-        session.exec_command(command)
-
-
-        print('\n--------Victim Std Out--------')
-        print(session.recv(2048))
-        print('--------Victim Std Out--------\n')
-
-        if command.find('sudo') > -1:
-            print('sudo is coming!!')
-            stdin = session.makefile('wb', -1)
-            stdin.write(victim['password']+'\n')
-            stdin.flush()
-
-            print('\n--------Victim Std Out--------')
-            print(session.recv(2048))
-            print('--------Victim Std Out--------\n')
-
-    else:
-        print('Session Failed')
+    stdin, stdout, stderr = client.exec_command(command)
+    if command.find('sudo') > -1:
+        print('sudo is coming!!')
+        stdin.write(victim['password'])
+        stdin.flush()
 
 
 def set_up_user():
