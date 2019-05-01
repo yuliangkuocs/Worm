@@ -54,23 +54,14 @@ def send_scp_command(sendFile, directory, isNeedPw=True):
 
 def set_up_user():
     print('[Victim]')
-    # victim['ip'] = raw_input('ip: ')
-    # victim['port'] = int(raw_input('port: '))
-    # victim['name'] = raw_input('name: ')
-    # victim['password'] = raw_input('password: ')
-    victim['ip'] = '192.168.31.145'
-    victim['port'] = 5555
+    victim['ip'] = raw_input('ip: ')
+    victim['port'] = int(raw_input('port: '))
     victim['name'] = 'victim'
     victim['password'] = 'victim'
 
     print('\n[Attacker]')
-    # attacker['ip'] = raw_input('ip: ')
-    # attacker['port'] = int(raw_input('port: '))
-    # attacker['name'] = raw_input('name: ')
-    # attacker['password'] = raw_input('password: ')
-
-    attacker['ip'] = '192.168.31.101'
-    attacker['port'] = 22
+    attacker['ip'] = raw_input('ip: ')
+    attacker['port'] = int(raw_input('port: '))
     attacker['name'] = 'cs2019'
     attacker['password'] = 'cs2019'
 
