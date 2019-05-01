@@ -10,7 +10,10 @@ def set_up_ssh_key():
     os.system(command)
 
     # Know the host of victim
-    command = 'ssh -t {0}@{1} -p {2} -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o StrictHostKeyChecking=no \"test\"'.format(victim['name'], victim['ip'], victim['port'])
+    command = 'sshpass -p {0} ssh -t {1}@{2} -p {3} -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o StrictHostKeyChecking=no \"test\"'.format(victim['password'],
+                                                                                                                                                  victim['name'],
+                                                                                                                                                  victim['ip'],
+                                                                                                                                                  victim['port'])
     os.system(command)
 
     # Send public key to the victim
