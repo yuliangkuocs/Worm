@@ -89,5 +89,5 @@ if __name__ == '__main__':
 
         print('[Reset the Worm]')
         # Set up attack module
-        command = 'cd /home/{0}/Worm_Attack && ( python SetUp_Attack.py )'
+        command = 'cd /home/{0}/Worm_Attack && ( python SetUp_Attack.py )'.format(victim['name'])
         send_ssh_command(command, isNeedPw=False)
